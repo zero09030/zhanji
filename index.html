@@ -985,9 +985,12 @@ function generateShareLink() {
   const data = loadData();
   if (!data) { showToast('⚠️ 请先编辑并保存你的作品集'); return; }
   try {
-    // 中文/emoji 安全编码：先 encodeURIComponent 再 base64
-    const utf8 = encodeURIComponent(JSON.stringify(data));
-    const encoded = btoa(unescape(utf8));
+    // UTF-8 → base64（兼容中文/emoji）
+    const json = JSON.stringify(data);
+    const bytes = new TextEncoder().encode(json);
+    let binary = '';
+    bytes.forEach(b => binary += String.fromCharCode(b));
+    const encoded = btoa(binary);
     const url = window.location.origin + window.location.pathname + '?d=' + encoded;
     navigator.clipboard.writeText(url).then(() => {
       showToast('✅ 分享链接已复制！发送给招聘方即可查看');
@@ -1009,7 +1012,10 @@ function loadSharedData() {
   const encoded = params.get('d');
   if (!encoded) return null;
   try {
-    const json = decodeURIComponent(escape(atob(encoded)));
+    const binary = atob(encoded);
+    const bytes = new Uint8Array(binary.length);
+    for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
+    const json = new TextDecoder().decode(bytes);
     const data = JSON.parse(json);
     if (data && data.name) return data;
   } catch(e) { console.warn('分享数据解析失败', e); }
