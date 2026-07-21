@@ -329,38 +329,9 @@ body {
   border-radius: 12px; font-size: 13px; opacity: 0;
   transition: opacity 0.3s, transform 0.3s; pointer-events: none; z-index: 200;
   backdrop-filter: blur(4px); white-space: nowrap;
+  z-index: 999;
 }
 .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
-
-/* ===== 分享弹窗 ===== */
-#shareOverlay {
-  position: fixed; inset: 0; z-index: 500;
-  background: rgba(0,0,0,0.35); display: none;
-  backdrop-filter: blur(2px);
-}
-#shareOverlay.open { display: block; }
-#shareModal {
-  position: fixed; bottom: 0; left: 0; right: 0; z-index: 501;
-  background: #FFFBF9; border-radius: 20px 20px 0 0;
-  transform: translateY(100%); transition: transform 0.35s cubic-bezier(0.32, 0.72, 0, 1);
-  box-shadow: 0 -4px 24px rgba(0,0,0,0.12);
-}
-#shareModal.open { transform: translateY(0); }
-#shareModal .handle {
-  width: 36px; height: 4px; border-radius: 2px; background: #DDD0C8;
-  margin: 10px auto 0;
-}
-#shareModal .panel-header {
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 16px 20px 12px; border-bottom: 1px solid #F0E8E0;
-}
-#shareModal .panel-header h2 { font-size: 18px; font-weight: 700; }
-#shareModal .panel-header .close-btn {
-  width: 32px; height: 32px; border-radius: 50%; border: none;
-  background: #F0E8E0; font-size: 16px; cursor: pointer;
-  display: flex; align-items: center; justify-content: center;
-}
-#shareModal .panel-body { padding: 16px 20px 24px; }
 
 /* ===== 响应式适配 ===== */
 @media (min-width: 600px) {
@@ -516,26 +487,7 @@ body {
 <!-- ========== Toast ========== -->
 <div class="toast" id="toast"></div>
 
-<!-- ========== 分享弹窗 ========== -->
-<div id="shareOverlay"></div>
-<div id="shareModal">
-  <div class="handle"></div>
-  <div class="panel-header">
-    <h2>🔗 分享作品集</h2>
-    <button class="close-btn" id="closeShareBtn">✕</button>
-  </div>
-  <div class="panel-body" style="text-align:center;">
-    <p style="font-size:14px;color:#6B5A4C;margin-bottom:16px;">扫二维码或复制链接，发送给招聘方</p>
-    <div id="qrcode" style="display:inline-block;background:#fff;padding:12px;border-radius:12px;border:1px solid #F0E8E0;"></div>
-    <div style="margin-top:14px;display:flex;gap:10px;">
-      <button id="copyShareLinkBtn" style="flex:1;padding:10px;border-radius:10px;border:1px solid #E0D4CC;background:#fff;color:#2D1B0E;font-size:14px;cursor:pointer;">📋 复制链接</button>
-      <button id="downloadQRBtn" style="flex:1;padding:10px;border-radius:10px;border:1px solid #E0D4CC;background:#fff;color:#2D1B0E;font-size:14px;cursor:pointer;">💾 保存二维码</button>
-    </div>
-  </div>
-</div>
-
 <script src="https://cdn.jsdelivr.net/npm/lz-string@1.5.0/libs/lz-string.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
 
 <script>
 // ================================================================
@@ -1037,42 +989,27 @@ function generateShareLink() {
   if (!data) { showToast('⚠️ 请先编辑并保存你的作品集'); return; }
   try {
     const json = JSON.stringify(data);
-    // 用 lz-string 压缩（大幅缩短 URL）
     const compressed = LZString.compressToEncodedURIComponent(json);
     const url = window.location.origin + window.location.pathname + '?d=' + compressed;
-    // 存入全局变量供弹窗使用
-    window._shareUrl = url;
-    // 显示分享弹窗
-    showShareModal(url);
+    copyToClipboard(url, '✅ 分享链接已复制！发送给招聘方即可查看');
   } catch(e) {
     showToast('❌ 生成链接失败：' + e.message);
   }
 }
 
-// ===== 分享弹窗 =====
-function showShareModal(url) {
-  document.getElementById('shareOverlay').classList.add('open');
-  document.getElementById('shareModal').classList.add('open');
-  // 生成二维码
-  const qrContainer = document.getElementById('qrcode');
-  qrContainer.innerHTML = '';
-  try {
-    new QRCode(qrContainer, {
-      text: url,
-      width: 180,
-      height: 180,
-      colorDark: '#2D1B0E',
-      colorLight: '#ffffff',
-      correctLevel: QRCode.CorrectLevel.M
-    });
-  } catch(e) {
-    qrContainer.innerHTML = '<div style="padding:20px;color:#B0A090;font-size:13px;">二维码数据较大，建议使用链接分享</div>';
-  }
-}
-
-function closeShareModal() {
-  document.getElementById('shareOverlay').classList.remove('open');
-  document.getElementById('shareModal').classList.remove('open');
+// ===== 复制到剪贴板（带 fallback） =====
+function copyToClipboard(text, successMsg) {
+  navigator.clipboard.writeText(text).then(() => {
+    showToast(successMsg);
+  }).catch(() => {
+    const input = document.createElement('input');
+    input.value = text;
+    document.body.appendChild(input);
+    input.select();
+    try { document.execCommand('copy'); showToast(successMsg); }
+    catch(e) { showToast('⚠️ 请手动复制链接'); }
+    document.body.removeChild(input);
+  });
 }
 
 // ===== 检查 URL 中是否含分享数据 =====
@@ -1128,24 +1065,6 @@ function showToast(msg) {
   });
   document.getElementById('closeEditBtn').addEventListener('click', closeEditPanel);
   document.getElementById('editOverlay').addEventListener('click', closeEditPanel);
-
-  // 分享弹窗按钮
-  document.getElementById('closeShareBtn').addEventListener('click', closeShareModal);
-  document.getElementById('shareOverlay').addEventListener('click', closeShareModal);
-  document.getElementById('copyShareLinkBtn').addEventListener('click', () => {
-    if (window._shareUrl) {
-      navigator.clipboard.writeText(window._shareUrl).then(() => showToast('✅ 链接已复制')).catch(() => {});
-    }
-  });
-  document.getElementById('downloadQRBtn').addEventListener('click', () => {
-    const canvas = document.querySelector('#qrcode canvas');
-    if (canvas) {
-      const a = document.createElement('a');
-      a.href = canvas.toDataURL('image/png');
-      a.download = '展集-作品集二维码.png';
-      a.click();
-    }
-  });
 
   // 编辑面板按钮
   document.getElementById('saveBtn').addEventListener('click', saveAndRender);
