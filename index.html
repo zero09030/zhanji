@@ -510,8 +510,8 @@ const DEFAULT_DATA = {
     { num: '00', unit: '年', label: '行业经验' }
   ],
   works: [
-    { badge: 'operation', badgeLabel: '📱 运营案例', title: '在这里填写作品标题', period: '时间周期', subtitle: '来源/平台', desc: '在这里填写作品的详细描述，突出你的工作内容、职责分工和取得的成果。建议包含具体的数据和可量化的结果。', stats: [{ num: '00', unit: '数据指标' }], tags: ['标签1','标签2','标签3'], link: '', video: '', image: '' },
-    { badge: 'video', badgeLabel: '🎬 视频作品', title: '填写视频作品标题', period: '时间周期', subtitle: '发布平台', desc: '描述你的视频作品，包含选题思路、制作过程、传播效果等。用数据说话更有说服力。', stats: [{ num: '00w+', unit: '播放量' }], tags: ['标签1','标签2','标签3'], link: '', video: '', image: '' }
+    { badge: 'operation', badgeLabel: '📱 运营案例', title: '在这里填写作品标题', period: '时间周期', subtitle: '来源/平台', desc: '在这里填写作品的详细描述，突出你的工作内容、职责分工和取得的成果。建议包含具体的数据和可量化的结果。', stats: [{ num: '00', unit: '数据指标' }], tags: ['标签1','标签2','标签3'], images: [{url:'', width:'100', ratio:'16/9'}], link: '', video: '' },
+    { badge: 'video', badgeLabel: '🎬 视频作品', title: '填写视频作品标题', period: '时间周期', subtitle: '发布平台', desc: '描述你的视频作品，包含选题思路、制作过程、传播效果等。用数据说话更有说服力。', stats: [{ num: '00w+', unit: '播放量' }], tags: ['标签1','标签2','标签3'], images: [{url:'', width:'100', ratio:'16/9'}], link: '', video: '' }
   ],
   experience: [
     { period: '起止时间', company: '公司/机构名称', role: '职位名称', desc: '填写你的工作内容和成果，建议包含具体数据。' },
@@ -538,9 +538,9 @@ const EXAMPLE_DATA = {
     { num: '5', unit: '个', label: '运营账号' }
   ],
   works: [
-    { badge: 'operation', badgeLabel: '📱 公众号运营', title: '从0到10万粉：职场类公众号增长复盘', period: '2022.06 – 2024.03', subtitle: '某职场成长号', desc: '负责公众号整体运营策略，通过内容矩阵搭建、社群裂变、跨号互推等组合打法，18个月内实现从0到10万粉丝增长。策划的「30天职场进阶」系列课程带来5000+付费用户。', stats: [{ num: '10', unit: '万粉丝' }, { num: '5000+', unit: '付费用户' }], tags: ['用户增长','内容策划','社群运营','变现'], link: '', video: '', image: '' },
-    { badge: 'video', badgeLabel: '🎬 短视频运营', title: '抖音职场号：单条播放量200w+', period: '2023.03 – 2023.09', subtitle: '抖音 @职场说', desc: '负责短视频选题策划与脚本撰写，3个月内从0起号做到5万粉丝。其中「应届生面试避坑指南」单条播放量突破200万，带来1.2万新增粉丝。', stats: [{ num: '200w+', unit: '单条播放' }, { num: '5w', unit: '粉丝' }], tags: ['短视频','脚本策划','抖音运营','爆款'], link: '', video: '', image: '' },
-    { badge: 'book', badgeLabel: '📊 数据驱动', title: '月度运营报告体系搭建', period: '2023.01 – 至今', subtitle: '常态化工作', desc: '建立完整的运营数据看板，涵盖粉丝增长、内容表现、转化漏斗、竞品监测四大模块。通过数据指导选题方向和发布时间，将内容打开率从3.2%提升至7.8%。', stats: [{ num: '3.2%→7.8%', unit: '打开率提升' }], tags: ['数据分析','Excel','GA','复盘'], link: '', video: '', image: '' }
+    { badge: 'operation', badgeLabel: '📱 公众号运营', title: '从0到10万粉：职场类公众号增长复盘', period: '2022.06 – 2024.03', subtitle: '某职场成长号', desc: '负责公众号整体运营策略，通过内容矩阵搭建、社群裂变、跨号互推等组合打法，18个月内实现从0到10万粉丝增长。策划的「30天职场进阶」系列课程带来5000+付费用户。', stats: [{ num: '10', unit: '万粉丝' }, { num: '5000+', unit: '付费用户' }], tags: ['用户增长','内容策划','社群运营','变现'], images: [{url:'', width:'100', ratio:'16/9'}], link: '', video: '' },
+    { badge: 'video', badgeLabel: '🎬 短视频运营', title: '抖音职场号：单条播放量200w+', period: '2023.03 – 2023.09', subtitle: '抖音 @职场说', desc: '负责短视频选题策划与脚本撰写，3个月内从0起号做到5万粉丝。其中「应届生面试避坑指南」单条播放量突破200万，带来1.2万新增粉丝。', stats: [{ num: '200w+', unit: '单条播放' }, { num: '5w', unit: '粉丝' }], tags: ['短视频','脚本策划','抖音运营','爆款'], images: [{url:'', width:'100', ratio:'16/9'}], link: '', video: '' },
+    { badge: 'book', badgeLabel: '📊 数据驱动', title: '月度运营报告体系搭建', period: '2023.01 – 至今', subtitle: '常态化工作', desc: '建立完整的运营数据看板，涵盖粉丝增长、内容表现、转化漏斗、竞品监测四大模块。通过数据指导选题方向和发布时间，将内容打开率从3.2%提升至7.8%。', stats: [{ num: '3.2%→7.8%', unit: '打开率提升' }], tags: ['数据分析','Excel','GA','复盘'], images: [{url:'', width:'100', ratio:'16/9'}], link: '', video: '' }
   ],
   experience: [
     { period: '2022.06 – 2024.03', company: '某互联网公司', role: '新媒体运营主管', desc: '负责公司新媒体矩阵运营，管理公众号、抖音、小红书三个账号。通过内容策略调整和数据分析，实现年度粉丝增长300%。' },
@@ -559,7 +559,7 @@ function loadData() {
     const saved = localStorage.getItem(STORAGE_KEY);
     if (saved) {
       const parsed = JSON.parse(saved);
-      return { ...DEFAULT_DATA, ...parsed, highlights: parsed.highlights || DEFAULT_DATA.highlights, works: parsed.works || DEFAULT_DATA.works, experience: parsed.experience || DEFAULT_DATA.experience, skills: parsed.skills || DEFAULT_DATA.skills, education: parsed.education || DEFAULT_DATA.education };
+      return { ...DEFAULT_DATA, ...parsed, highlights: parsed.highlights || DEFAULT_DATA.highlights, works: (parsed.works || DEFAULT_DATA.works).map(w => { if (w.image && !w.images) { w.images = [{url: w.image, width: w.imageWidth || '100', ratio: w.imageRatio || '16/9'}]; delete w.image; delete w.imageWidth; delete w.imageRatio; } if (!w.images) w.images = [{url: '', width: '100', ratio: '16/9'}]; return w; }), experience: parsed.experience || DEFAULT_DATA.experience, skills: parsed.skills || DEFAULT_DATA.skills, education: parsed.education || DEFAULT_DATA.education };
     }
   } catch (e) { console.warn('数据加载失败，使用默认', e); }
   return null; // 首次访问无数据
@@ -622,11 +622,18 @@ function renderPage(data) {
   const oldCards = worksSection.querySelectorAll('.work-card');
   oldCards.forEach(c => c.remove());
   const insertPoint = titles[0];
+  // 先用 DocumentFragment 收集所有卡片，一次性插入（保持顺序）
+  const frag = document.createDocumentFragment();
   data.works.forEach((w, idx) => {
     const card = document.createElement('div');
     card.className = `work-card fade-in fade-in-d${(idx % 4) + 1}`;
     card.innerHTML = `
-      ${w.image ? `<div style="margin:-20px -20px 14px;border-radius:16px 16px 0 0;overflow:hidden;background:#F5F0EC;"><img src="${escHtml(w.image)}" alt="${escHtml(w.title)}" style="width:100%;display:block;max-height:200px;object-fit:cover;" onerror="this.parentElement.style.display='none'"></div>` : ''}
+      ${w.images && w.images.length > 0 && w.images[0].url ? `<div style="margin:-20px -20px 14px;display:flex;flex-wrap:wrap;gap:6px;overflow:hidden;border-radius:16px 16px 0 0;background:#F5F0EC;justify-content:center;padding:0;">${w.images.map(img => {
+        const imgRatio = img.ratio && img.ratio !== 'auto' ? `aspect-ratio:${img.ratio};` : '';
+        const imgWidth = img.width && img.width !== '100' ? `max-width:${img.width}%;` : '';
+        const imgHeight = img.ratio === 'auto' ? '' : 'height:100%;object-fit:cover;';
+        return `<div style="flex-shrink:0;${imgWidth}${imgRatio}overflow:hidden;"><img src="${escHtml(img.url)}" alt="${escHtml(w.title)}" style="width:100%;display:block;${imgHeight}" onerror="this.parentElement.style.display='none'"></div>`;
+      }).join('')}</div>` : ''}
       <div class="badge ${w.badge}">${w.badgeLabel}</div>
       <h3>${w.title}</h3>
       <div class="meta"><span>${w.period}</span><span class="dot"></span><span>${w.subtitle}</span></div>
@@ -655,8 +662,9 @@ function renderPage(data) {
       ${w.stats && w.stats.length ? `<div class="stats">${w.stats.map(s => `<div class="stat-item"><span class="num">${s.num}</span><span class="lbl">${s.unit}</span></div>`).join('')}</div>` : ''}
       <div class="tags">${w.tags.map(t => `<span>${t}</span>`).join('')}</div>
     `;
-    insertPoint.after(card);
+    frag.appendChild(card);
   });
+  insertPoint.after(frag);
   if (titles.length > 1) titles[1].remove();
 
   // Experience
@@ -753,7 +761,22 @@ function renderWorkEditors(works) {
       <div class="form-group"><textarea class="w-desc" rows="3" placeholder="描述">${escHtml(w.desc)}</textarea></div>
       <div class="form-group"><input class="w-link" value="${escHtml(w.link || '')}" placeholder="🔗 链接 URL（可选）"></div>
       <div class="form-group"><input class="w-video" value="${escHtml(w.video || '')}" placeholder="🎬 视频链接（B站URL/MP4直链，抖音小红书自动转为外链）"></div>
-      <div class="form-group"><input class="w-image" value="${escHtml(w.image || '')}" placeholder="🖼️ 图片 URL（可选）"></div>
+      <div style="margin-bottom:8px;">
+        <div style="font-size:13px;font-weight:600;color:#6B5A4C;margin-bottom:6px;">🖼️ 图片（支持多张）</div>
+        <div class="w-images-list">
+          ${(w.images || [{url:'', width:'100', ratio:'16/9'}]).map((img, i) => `
+            <div class="w-image-item" style="background:#FFFBFA;border:1px solid #F0E8E0;border-radius:10px;padding:10px;margin-bottom:8px;position:relative;">
+              <button class="del-btn" onclick="this.closest('.w-image-item').remove()" style="position:absolute;top:6px;right:8px;width:22px;height:22px;border-radius:50%;border:none;background:#FEE;color:#D94E4E;font-size:12px;cursor:pointer;">✕</button>
+              <div class="form-group"><input class="wi-url" value="${escHtml(img.url || '')}" placeholder="图片 URL"></div>
+              <div class="form-row">
+                <div class="form-group"><input class="wi-width" value="${escHtml(img.width || '100')}" placeholder="宽度%" style="padding:8px 12px;font-size:12px;"></div>
+                <div class="form-group"><input class="wi-ratio" value="${escHtml(img.ratio || '16/9')}" placeholder="比例" style="padding:8px 12px;font-size:12px;"></div>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+        <button onclick="addImgToWork(this)" style="width:100%;padding:8px;border-radius:10px;border:1px dashed #D0C4B8;background:#FFFBFA;color:#8C7A6B;font-size:13px;cursor:pointer;">＋ 添加图片</button>
+      </div>
       <div class="form-group"><input class="w-tags" value="${escHtml(w.tags.join(', '))}" placeholder="标签（逗号分隔）"></div>
     </div>
   `).join('');
@@ -836,9 +859,16 @@ function collectFormData() {
           period: item.querySelector('.w-period').value.trim(),
           subtitle: item.querySelector('.w-subtitle').value.trim(),
           desc: item.querySelector('.w-desc').value.trim(),
+          images: (() => {
+            const imgs = [];
+            item.querySelectorAll('.w-image-item').forEach(imgItem => {
+              const url = imgItem.querySelector('.wi-url').value.trim();
+              if (url) imgs.push({url, width: imgItem.querySelector('.wi-width').value.trim() || '100', ratio: imgItem.querySelector('.wi-ratio').value.trim() || '16/9'});
+            });
+            return imgs.length ? imgs : [{url: '', width: '100', ratio: '16/9'}];
+          })(),
           link: item.querySelector('.w-link').value.trim(),
           video: item.querySelector('.w-video').value.trim(),
-          image: item.querySelector('.w-image').value.trim(),
           tags: tagsStr ? tagsStr.split(/[,，]/).map(s => s.trim()).filter(Boolean) : [],
           stats: []
         });
@@ -875,6 +905,18 @@ function deleteWorkByEl(btn) {
   btn.closest('.work-item').remove();
 }
 
+// ===== 添加图片到作品 =====
+function addImgToWork(btn) {
+  const list = btn.closest('.work-item') ? btn.closest('.work-item').querySelector('.w-images-list') : btn.parentElement.querySelector('.w-images-list');
+  if (!list) return;
+  const div = document.createElement('div');
+  div.className = 'w-image-item';
+  div.style.cssText = 'background:#FFFBFA;border:1px solid #F0E8E0;border-radius:10px;padding:10px;margin-bottom:8px;position:relative;';
+  div.innerHTML = '<button class="del-btn" onclick="this.closest(\'.w-image-item\').remove()" style="position:absolute;top:6px;right:8px;width:22px;height:22px;border-radius:50%;border:none;background:#FEE;color:#D94E4E;font-size:12px;cursor:pointer;">✕</button><div class="form-group"><input class="wi-url" placeholder="图片 URL"></div><div class="form-row"><div class="form-group"><input class="wi-width" value="100" placeholder="宽度%" style="padding:8px 12px;font-size:12px;"></div><div class="form-group"><input class="wi-ratio" value="16/9" placeholder="比例" style="padding:8px 12px;font-size:12px;"></div></div>';
+  list.appendChild(div);
+}
+
+// ===== 添加作品 =====
 function addWork() {
   const container = document.getElementById('edtWorks');
   const div = document.createElement('div');
@@ -893,7 +935,20 @@ function addWork() {
     <div class="form-group"><textarea class="w-desc" rows="3" placeholder="描述"></textarea></div>
     <div class="form-group"><input class="w-link" placeholder="🔗 链接 URL（可选）"></div>
     <div class="form-group"><input class="w-video" placeholder="🎬 视频嵌入 URL（可选）"></div>
-    <div class="form-group"><input class="w-image" placeholder="🖼️ 图片 URL（可选）"></div>
+    <div style="margin-bottom:8px;">
+      <div style="font-size:13px;font-weight:600;color:#6B5A4C;margin-bottom:6px;">🖼️ 图片</div>
+      <div class="w-images-list">
+        <div class="w-image-item" style="background:#FFFBFA;border:1px solid #F0E8E0;border-radius:10px;padding:10px;margin-bottom:8px;position:relative;">
+          <button class="del-btn" onclick="this.closest('.w-image-item').remove()" style="position:absolute;top:6px;right:8px;width:22px;height:22px;border-radius:50%;border:none;background:#FEE;color:#D94E4E;font-size:12px;cursor:pointer;">✕</button>
+          <div class="form-group"><input class="wi-url" placeholder="图片 URL"></div>
+          <div class="form-row">
+            <div class="form-group"><input class="wi-width" value="100" placeholder="宽度%" style="padding:8px 12px;font-size:12px;"></div>
+            <div class="form-group"><input class="wi-ratio" value="16/9" placeholder="比例" style="padding:8px 12px;font-size:12px;"></div>
+          </div>
+        </div>
+      </div>
+      <button onclick="addImgToWork(this)" style="width:100%;padding:8px;border-radius:10px;border:1px dashed #D0C4B8;background:#FFFBFA;color:#8C7A6B;font-size:13px;cursor:pointer;">＋ 添加图片</button>
+    </div>
     <div class="form-group"><input class="w-tags" value="" placeholder="标签（逗号分隔）"></div>
   `;
   container.appendChild(div);
@@ -984,11 +1039,47 @@ function copyLink() {
 }
 
 // ===== 生成分享链接 =====
+// 字段名缩略映射（让 URL 更短）
+const KEY_MAP = {
+  'name':'n','avatar':'av','phone':'ph','email':'em','title':'ti','tagline':'tl',
+  'highlights':'hl','works':'wk','experience':'ex','skills':'sk','education':'ed',
+  'badge':'bg','badgeLabel':'bl','period':'pd','subtitle':'st','desc':'de',
+  'tags':'ta','stats':'ss','link':'lk','video':'vd','image':'im',
+  'company':'co','role':'ro','school':'sc','major':'ma','detail':'dt',
+  'num':'nu','unit':'un','label':'lb','imageRatio':'ir','imageWidth':'iw',
+  'images':'ims','url':'u','width':'w','ratio':'r'
+};
+const KEY_MAP_REV = Object.fromEntries(Object.entries(KEY_MAP).map(([k,v])=>[v,k]));
+
+function compactData(obj) {
+  if (Array.isArray(obj)) return obj.map(compactData);
+  if (obj && typeof obj === 'object') {
+    const r = {};
+    for (const [k, v] of Object.entries(obj)) {
+      r[KEY_MAP[k] || k] = compactData(v);
+    }
+    return r;
+  }
+  return obj;
+}
+
+function expandData(obj) {
+  if (Array.isArray(obj)) return obj.map(expandData);
+  if (obj && typeof obj === 'object') {
+    const r = {};
+    for (const [k, v] of Object.entries(obj)) {
+      r[KEY_MAP_REV[k] || k] = expandData(v);
+    }
+    return r;
+  }
+  return obj;
+}
+
 function generateShareLink() {
   const data = loadData();
   if (!data) { showToast('⚠️ 请先编辑并保存你的作品集'); return; }
   try {
-    const json = JSON.stringify(data);
+    const json = JSON.stringify(compactData(data));
     const compressed = LZString.compressToEncodedURIComponent(json);
     const url = window.location.origin + window.location.pathname + '?d=' + compressed;
     copyToClipboard(url, '✅ 分享链接已复制！发送给招聘方即可查看');
@@ -1020,7 +1111,9 @@ function loadSharedData() {
   try {
     const json = LZString.decompressFromEncodedURIComponent(compressed);
     if (!json) throw new Error('解压失败');
-    const data = JSON.parse(json);
+    const raw = JSON.parse(json);
+    // 支持新旧两种格式：尝试展开缩略字段
+    const data = raw.n ? expandData(raw) : raw;
     if (data && data.name) return data;
   } catch(e) { console.warn('分享数据解析失败', e); }
   return null;
