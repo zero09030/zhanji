@@ -1,0 +1,18 @@
+{
+  "name": "展集 · 新媒体运营作品集",
+  "short_name": "展集",
+  "description": "牛媛媛 · 新媒体运营 · 个人作品集",
+  "start_url": "index.html",
+  "display": "standalone",
+  "background_color": "#FFFBFA",
+  "theme_color": "#E8734A",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

@@ -1,0 +1,899 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#E8734A">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="description" content="展集 · 新媒体作品集生成工具 · 在线制作你的求职作品集">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icon.svg">
+<title>展集 · 新媒体作品集生成工具</title>
+<style>
+/* ===== 重置 & 基础 ===== */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Noto Sans SC", "Microsoft YaHei", "Helvetica Neue", sans-serif;
+  background: #FFFBFA; color: #2D1B0E; font-size: 15px; line-height: 1.6;
+  -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
+}
+
+/* ===== 工具类 ===== */
+.container { max-width: 480px; margin: 0 auto; padding: 0 20px; }
+.section-title {
+  font-size: 20px; font-weight: 700; letter-spacing: 0.5px;
+  margin-bottom: 20px; display: flex; align-items: center; gap: 8px;
+}
+.section-title .icon { font-size: 22px; }
+
+/* ===== 顶部 Hero ===== */
+#hero {
+  background: linear-gradient(160deg, #FFFBFA 0%, #FDF0EB 60%, #F8E6DE 100%);
+  padding: 48px 20px 36px; text-align: center;
+  border-bottom: 1px solid #F0E0D8;
+}
+#hero .avatar {
+  width: 88px; height: 88px; border-radius: 50%; margin: 0 auto 16px;
+  background: linear-gradient(135deg, #E8734A, #D95E38);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 36px; color: #fff; font-weight: 600;
+  box-shadow: 0 4px 20px rgba(232,115,74,0.25);
+  user-select: none;
+}
+#hero h1 { font-size: 26px; font-weight: 700; letter-spacing: 1px; }
+#hero .title-tag {
+  display: inline-block; margin-top: 8px;
+  background: rgba(232,115,74,0.12); color: #D95E38;
+  padding: 4px 16px; border-radius: 20px;
+  font-size: 14px; font-weight: 600; letter-spacing: 0.5px;
+}
+#hero .tagline {
+  margin-top: 14px; font-size: 14px; color: #8C7A6B;
+  max-width: 300px; margin-left: auto; margin-right: auto; line-height: 1.7;
+}
+#hero .contact-bar {
+  margin-top: 18px; display: flex; justify-content: center; gap: 12px; flex-wrap: wrap;
+}
+#hero .contact-bar a {
+  text-decoration: none; font-size: 13px; color: #6B5A4C;
+  background: rgba(255,255,255,0.7); padding: 6px 14px; border-radius: 20px;
+  border: 1px solid #E8DCD4; transition: all 0.2s;
+  display: inline-flex; align-items: center; gap: 4px;
+}
+#hero .contact-bar a:hover { border-color: #E8734A; color: #D95E38; }
+#hero .contact-bar .label { font-size: 12px; opacity: 0.7; }
+
+/* ===== 数据亮点横幅 ===== */
+#highlights {
+  background: #fff; padding: 24px 0;
+  border-bottom: 1px solid #F0E8E0;
+}
+#highlights .grid {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 0;
+}
+#highlights .item {
+  text-align: center; position: relative; padding: 4px 0;
+}
+#highlights .item:not(:last-child)::after {
+  content: ''; position: absolute; right: 0; top: 50%;
+  transform: translateY(-50%); width: 1px; height: 32px;
+  background: #F0E8E0;
+}
+#highlights .num {
+  font-size: 22px; font-weight: 800; color: #E8734A; line-height: 1.2;
+  letter-spacing: -0.5px;
+}
+#highlights .num .unit { font-size: 14px; font-weight: 600; }
+#highlights .label {
+  font-size: 11px; color: #8C7A6B; margin-top: 4px;
+}
+
+/* ===== 作品展示区 ===== */
+#works { padding: 32px 0; }
+.work-card {
+  background: #fff; border-radius: 16px; padding: 20px;
+  margin-bottom: 16px; box-shadow: 0 1px 8px rgba(0,0,0,0.04);
+  border: 1px solid #F0E8E0; transition: transform 0.2s, box-shadow 0.2s;
+}
+.work-card:active { transform: scale(0.99); }
+.work-card .badge {
+  display: inline-block; font-size: 11px; font-weight: 700;
+  padding: 2px 10px; border-radius: 12px; margin-bottom: 10px;
+  letter-spacing: 0.5px;
+}
+.work-card .badge.operation { background: #FDF0EB; color: #D95E38; }
+.work-card .badge.video { background: #EBF5F0; color: #2A7D5E; }
+.work-card .badge.book { background: #F0EEF5; color: #6B5A9E; }
+.work-card .badge.teach { background: #FEF6E8; color: #B8862D; }
+.work-card .badge.project { background: #EEF0F8; color: #4A6FA5; }
+.work-card h3 { font-size: 17px; font-weight: 700; margin-bottom: 6px; line-height: 1.4; }
+.work-card .meta {
+  font-size: 13px; color: #8C7A6B; margin-bottom: 10px;
+  display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+}
+.work-card .meta .dot { width: 3px; height: 3px; border-radius: 50%; background: #D0C4B8; }
+.work-card .desc { font-size: 14px; color: #5A4A3C; line-height: 1.7; }
+.work-card .stats {
+  margin-top: 12px; display: flex; gap: 16px; flex-wrap: wrap;
+}
+.work-card .stat-item {
+  background: #FFFBFA; padding: 8px 14px; border-radius: 10px;
+  border: 1px solid #F0E8E0;
+}
+.work-card .stat-item .num { font-size: 18px; font-weight: 800; color: #E8734A; }
+.work-card .stat-item .lbl { font-size: 11px; color: #8C7A6B; margin-left: 2px; }
+.work-card .stat-item .sub { font-size: 12px; color: #8C7A6B; display: block; margin-top: 2px; }
+.work-card .tags {
+  margin-top: 10px; display: flex; gap: 6px; flex-wrap: wrap;
+}
+.work-card .tags span {
+  font-size: 11px; color: #8C7A6B; background: #F5F0EC; padding: 2px 10px; border-radius: 10px;
+}
+
+/* ===== 经历时间线 ===== */
+#experience { padding: 0 0 32px; }
+.timeline { position: relative; padding-left: 28px; }
+.timeline::before {
+  content: ''; position: absolute; left: 8px; top: 6px; bottom: 6px;
+  width: 2px; background: #E8DCD4;
+}
+.timeline-item { position: relative; padding-bottom: 24px; }
+.timeline-item:last-child { padding-bottom: 0; }
+.timeline-item::before {
+  content: ''; position: absolute; left: -24px; top: 6px;
+  width: 12px; height: 12px; border-radius: 50%;
+  background: #E8734A; border: 3px solid #FFFBFA; z-index: 1;
+}
+.timeline-item .period {
+  font-size: 12px; color: #B0A090; font-weight: 600; letter-spacing: 0.5px;
+}
+.timeline-item h4 { font-size: 16px; font-weight: 700; margin: 2px 0 2px; }
+.timeline-item .role { font-size: 14px; color: #D95E38; font-weight: 600; }
+.timeline-item .desc { font-size: 13px; color: #6B5A4C; margin-top: 6px; line-height: 1.7; }
+
+/* ===== 技能标签 ===== */
+#skills { padding: 0 0 40px; }
+.skill-grid {
+  display: flex; flex-wrap: wrap; gap: 8px;
+}
+.skill-grid .tag {
+  font-size: 13px; padding: 6px 14px; border-radius: 20px;
+  background: #F5F0EC; color: #5A4A3C; border: 1px solid #E8DCD4;
+  transition: all 0.2s;
+}
+.skill-grid .tag.highlight {
+  background: #FDF0EB; color: #D95E38; border-color: #F0C8B8;
+}
+
+/* ===== 底部 CTA ===== */
+#cta {
+  text-align: center; padding: 32px 20px 40px;
+  border-top: 1px solid #F0E8E0;
+}
+#cta p { font-size: 15px; color: #8C7A6B; margin-bottom: 16px; }
+#cta .btn {
+  display: inline-block; padding: 12px 32px; border-radius: 30px;
+  background: linear-gradient(135deg, #E8734A, #D95E38);
+  color: #fff; text-decoration: none; font-size: 15px; font-weight: 600;
+  box-shadow: 0 4px 16px rgba(232,115,74,0.3);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+#cta .btn:active { transform: scale(0.96); box-shadow: 0 2px 8px rgba(232,115,74,0.2); }
+#cta .sub-links { margin-top: 14px; font-size: 12px; color: #B0A090; }
+#cta .sub-links a { color: #8C7A6B; text-decoration: none; }
+#cta .sub-links a:hover { color: #D95E38; }
+
+/* ===== 页脚 ===== */
+#footer {
+  text-align: center; padding: 20px; font-size: 12px; color: #B0A090;
+  border-top: 1px solid #F0E8E0;
+}
+
+/* ===== 滚动动画 ===== */
+.fade-in {
+  opacity: 0; transform: translateY(20px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.fade-in.visible { opacity: 1; transform: translateY(0); }
+.fade-in-d1 { transition-delay: 0.1s; }
+.fade-in-d2 { transition-delay: 0.2s; }
+.fade-in-d3 { transition-delay: 0.3s; }
+.fade-in-d4 { transition-delay: 0.4s; }
+
+/* ===== 编辑按钮 ===== */
+.edit-fab {
+  position: fixed; bottom: 24px; left: 20px; z-index: 100;
+  width: 44px; height: 44px; border-radius: 50%;
+  background: #fff; color: #2D1B0E; border: 1px solid #E0D4CC;
+  font-size: 18px; cursor: pointer;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  display: flex; align-items: center; justify-content: center;
+  transition: transform 0.2s;
+}
+.edit-fab:active { transform: scale(0.9); }
+.edit-fab.editing { background: #E8734A; color: #fff; border-color: #E8734A; }
+
+/* ===== 编辑面板 ===== */
+#editOverlay {
+  position: fixed; inset: 0; z-index: 500;
+  background: rgba(0,0,0,0.35); display: none;
+  backdrop-filter: blur(2px);
+}
+#editOverlay.open { display: block; }
+#editPanel {
+  position: fixed; bottom: 0; left: 0; right: 0; z-index: 501;
+  background: #FFFBF9; border-radius: 20px 20px 0 0;
+  max-height: 80vh; overflow-y: auto;
+  transform: translateY(100%); transition: transform 0.35s cubic-bezier(0.32, 0.72, 0, 1);
+  box-shadow: 0 -4px 24px rgba(0,0,0,0.12);
+}
+#editPanel.open { transform: translateY(0); }
+#editPanel .handle {
+  width: 36px; height: 4px; border-radius: 2px; background: #DDD0C8;
+  margin: 10px auto 0;
+}
+#editPanel .panel-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 16px 20px 12px; border-bottom: 1px solid #F0E8E0;
+}
+#editPanel .panel-header h2 { font-size: 18px; font-weight: 700; }
+#editPanel .panel-header .close-btn {
+  width: 32px; height: 32px; border-radius: 50%; border: none;
+  background: #F0E8E0; font-size: 16px; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+}
+#editPanel .panel-body { padding: 16px 20px 24px; }
+#editPanel .form-group { margin-bottom: 14px; }
+#editPanel .form-group label {
+  display: block; font-size: 13px; font-weight: 600; color: #6B5A4C;
+  margin-bottom: 4px;
+}
+#editPanel .form-group input,
+#editPanel .form-group textarea {
+  width: 100%; padding: 10px 14px; border-radius: 10px;
+  border: 1px solid #E0D4CC; font-size: 14px;
+  background: #fff; font-family: inherit; color: #2D1B0E;
+  outline: none; transition: border-color 0.2s;
+}
+#editPanel .form-group input:focus,
+#editPanel .form-group textarea:focus { border-color: #E8734A; }
+#editPanel .form-group textarea { resize: vertical; min-height: 60px; }
+#editPanel .form-row { display: flex; gap: 10px; }
+#editPanel .form-row .form-group { flex: 1; }
+#editPanel .section-label {
+  font-size: 15px; font-weight: 700; margin: 20px 0 12px; padding-top: 16px;
+  border-top: 1px solid #F0E8E0;
+}
+#editPanel .work-item {
+  background: #FFFBFA; border: 1px solid #F0E8E0; border-radius: 12px;
+  padding: 14px; margin-bottom: 12px; position: relative;
+}
+#editPanel .work-item .del-btn {
+  position: absolute; top: 8px; right: 10px;
+  width: 24px; height: 24px; border-radius: 50%; border: none;
+  background: #FEE; color: #D94E4E; font-size: 14px; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+}
+#editPanel .add-work-btn {
+  width: 100%; padding: 10px; border-radius: 10px;
+  border: 1px dashed #D0C4B8; background: #FFFBFA;
+  color: #8C7A6B; font-size: 14px; cursor: pointer;
+  transition: border-color 0.2s;
+}
+#editPanel .add-work-btn:hover { border-color: #E8734A; color: #E8734A; }
+#editPanel .save-bar {
+  position: sticky; bottom: 0; background: #FFFBF9;
+  padding: 12px 0 4px; border-top: 1px solid #F0E8E0;
+  display: flex; gap: 10px;
+}
+#editPanel .save-bar .btn-primary {
+  flex: 1; padding: 12px; border-radius: 12px; border: none;
+  background: linear-gradient(135deg, #E8734A, #D95E38);
+  color: #fff; font-size: 15px; font-weight: 600; cursor: pointer;
+}
+#editPanel .save-bar .btn-secondary {
+  padding: 12px 20px; border-radius: 12px; border: 1px solid #E0D4CC;
+  background: #fff; color: #6B5A4C; font-size: 14px; cursor: pointer;
+}
+
+/* ===== 分享按钮 ===== */
+.share-btn {
+  position: fixed; bottom: 24px; right: 20px; z-index: 100;
+  width: 48px; height: 48px; border-radius: 50%;
+  background: linear-gradient(135deg, #E8734A, #D95E38);
+  color: #fff; border: none; font-size: 20px; cursor: pointer;
+  box-shadow: 0 4px 16px rgba(232,115,74,0.35);
+  display: flex; align-items: center; justify-content: center;
+  transition: transform 0.2s;
+}
+.share-btn:active { transform: scale(0.9); }
+
+/* ===== Toast ===== */
+.toast {
+  position: fixed; bottom: 84px; left: 50%; transform: translateX(-50%) translateY(20px);
+  background: rgba(45,27,14,0.85); color: #fff; padding: 10px 20px;
+  border-radius: 12px; font-size: 13px; opacity: 0;
+  transition: opacity 0.3s, transform 0.3s; pointer-events: none; z-index: 200;
+  backdrop-filter: blur(4px); white-space: nowrap;
+}
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+/* ===== 响应式适配 ===== */
+@media (min-width: 600px) {
+  body { font-size: 16px; }
+  .container { max-width: 560px; }
+  #hero { padding: 60px 20px 40px; }
+  #hero .avatar { width: 100px; height: 100px; font-size: 40px; }
+  #highlights .num { font-size: 26px; }
+  .work-card { padding: 24px; }
+}
+@media (max-width: 374px) {
+  #highlights .grid { grid-template-columns: repeat(2, 1fr); gap: 12px 0; }
+  #highlights .item:nth-child(2)::after { display: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- ========== Hero ========== -->
+<section id="hero">
+  <div class="avatar">?</div>
+  <h1>展集</h1>
+  <span class="title-tag">📱 你的作品集</span>
+  <p class="tagline">点击左下角 ✏️ 开始编辑你的作品集<br>填写个人信息、展示作品、一键分享</p>
+  <div class="contact-bar"></div>
+</section>
+
+<!-- ========== 数据亮点 ========== -->
+<section id="highlights">
+  <div class="container">
+    <div class="grid"></div>
+  </div>
+</section>
+
+<section id="works">
+  <div class="container">
+    <div class="section-title fade-in"><span class="icon">🏆</span> 作品展示</div>
+  </div>
+</section>
+
+<section id="experience">
+  <div class="container">
+    <div class="section-title fade-in"><span class="icon">📋</span> 工作经历</div>
+    <div class="timeline">
+      <div class="timeline-item fade-in fade-in-d1">
+        <div class="period">点击编辑</div>
+        <h4>在此填写公司/机构名称</h4>
+        <div class="role">职位名称</div>
+        <div class="desc">填写你的工作内容和成果，建议包含具体数据。</div>
+      </div>
+      <div class="timeline-item fade-in fade-in-d2">
+        <div class="period">点击编辑</div>
+        <h4>在此填写公司/机构名称</h4>
+        <div class="role">职位名称</div>
+        <div class="desc">填写你的工作内容和成果。</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== 技能标签 ========== -->
+<section id="skills">
+  <div class="container">
+    <div class="section-title fade-in"><span class="icon">🛠</span> 专业技能</div>
+    <div class="skill-grid fade-in fade-in-d1">
+      <span class="tag highlight">技能标签1</span>
+      <span class="tag highlight">技能标签2</span>
+      <span class="tag highlight">技能标签3</span>
+      <span class="tag">标签4</span>
+      <span class="tag">标签5</span>
+      <span class="tag">标签6</span>
+      <span class="tag">标签7</span>
+      <span class="tag">标签8</span>
+      <span class="tag">标签9</span>
+      <span class="tag">标签10</span>
+    </div>
+    <div style="margin-top: 20px;" class="fade-in fade-in-d2">
+      <div class="section-title" style="font-size:16px; margin-bottom:12px;"><span class="icon">🎓</span> 教育背景</div>
+      <div style="background:#fff; border-radius:12px; padding:16px; border:1px solid #F0E8E0;">
+        <div style="font-size:14px; font-weight:600;">学校名称</div>
+        <div style="font-size:13px; color:#6B5A4C; margin-top:2px;">专业 · 学历（GPA / 荣誉）</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== CTA ========== -->
+<section id="cta">
+  <p>📩 如果您正在寻找一位懂内容、能实战、有资源的新媒体运营人才<br>期待与您聊聊！</p>
+  <a class="btn" href="#" id="ctaMailBtn">✉️ 编辑后自动生成联系方式</a>
+  <div class="sub-links">
+    <span style="color:#B0A090;font-size:13px;">编辑作品集后自动显示联系方式</span>
+  </div>
+</section>
+
+<!-- ========== Footer ========== -->
+<div id="footer">
+  展集 · 在线制作你的求职作品集
+</div>
+
+<!-- ========== 编辑按钮 ========== -->
+<button class="edit-fab" id="editFab" title="编辑作品集">✏️</button>
+
+<!-- ========== 分享按钮 ========== -->
+<button class="share-btn" id="shareBtn" title="分享作品集">📤</button>
+
+<!-- ========== 编辑面板 ========== -->
+<div id="editOverlay"></div>
+<div id="editPanel">
+  <div class="handle"></div>
+  <div class="panel-header">
+    <h2>✏️ 编辑作品集</h2>
+    <button class="close-btn" id="closeEditBtn">✕</button>
+  </div>
+  <div class="panel-body">
+    <div class="form-group">
+      <label>姓名</label>
+      <input type="text" id="edtName" value="你的名字">
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>求职方向</label>
+        <input type="text" id="edtTitle" value="新媒体运营">
+      </div>
+      <div class="form-group">
+        <label>头像文字</label>
+        <input type="text" id="edtAvatar" value="牛" maxlength="2" style="text-align:center;">
+      </div>
+    </div>
+    <div class="form-group">
+      <label>简介（换行用 \n）</label>
+      <textarea id="edtTagline" rows="3">在这里写下你的个人简介
+突出你的核心竞争力和求职优势</textarea>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>电话</label>
+        <input type="text" id="edtPhone" value="13800000000">
+      </div>
+      <div class="form-group">
+        <label>邮箱</label>
+        <input type="text" id="edtEmail" value="your@email.com">
+      </div>
+    </div>
+
+    <div class="section-label">📊 数据亮点</div>
+    <div id="edtHighlights"></div>
+
+    <div class="section-label">🏆 作品展示</div>
+    <div id="edtWorks"></div>
+    <button class="add-work-btn" id="addWorkBtn">＋ 添加作品</button>
+
+    <div class="save-bar">
+      <button class="btn-secondary" id="loadExampleBtn">📋 加载示例</button>
+      <button class="btn-primary" id="saveBtn">💾 保存</button>
+    </div>
+    <div style="display:flex; gap:10px; margin-top:10px;">
+      <button class="btn-secondary" id="exportBtn" style="flex:1;">📤 导出数据</button>
+      <button class="btn-secondary" id="importBtn" style="flex:1;">📥 导入数据</button>
+    </div>
+    <div style="margin-top:10px; text-align:center;">
+      <button id="resetBtn" style="font-size:12px; padding:6px 16px; border:1px solid #E0D4CC; background:none; color:#B0A090; border-radius:20px; cursor:pointer; transition:color 0.2s;">恢复空白模板</button>
+    </div>
+  </div>
+</div>
+
+<!-- ========== Toast ========== -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ================================================================
+// 数据层（默认数据 + localStorage）
+// ================================================================
+const STORAGE_KEY = 'zhanji_data_v1';
+
+// ===== 空白模板（首次打开/重置时使用） =====
+const DEFAULT_DATA = {
+  name: '你的名字',
+  avatar: '你',
+  phone: '13800000000',
+  email: 'your@email.com',
+  title: '新媒体运营',
+  tagline: '在这里写下你的个人简介\n突出你的核心竞争力和求职优势',
+  highlights: [
+    { num: '00', unit: '万', label: '核心数据' },
+    { num: '00', unit: '+', label: '项目成果' },
+    { num: '00', unit: '', label: '荣誉奖项' },
+    { num: '00', unit: '年', label: '行业经验' }
+  ],
+  works: [
+    { badge: 'operation', badgeLabel: '📱 运营案例', title: '在这里填写作品标题', period: '时间周期', subtitle: '来源/平台', desc: '在这里填写作品的详细描述，突出你的工作内容、职责分工和取得的成果。建议包含具体的数据和可量化的结果。', stats: [{ num: '00', unit: '数据指标' }], tags: ['标签1','标签2','标签3'] },
+    { badge: 'video', badgeLabel: '🎬 视频作品', title: '填写视频作品标题', period: '时间周期', subtitle: '发布平台', desc: '描述你的视频作品，包含选题思路、制作过程、传播效果等。用数据说话更有说服力。', stats: [{ num: '00w+', unit: '播放量' }], tags: ['标签1','标签2','标签3'] }
+  ]
+};
+
+// ===== 示例数据（供用户参考格式） =====
+const EXAMPLE_DATA = {
+  name: '张小明',
+  avatar: '张',
+  phone: '13912345678',
+  email: 'zhangxm@example.com',
+  title: '新媒体运营',
+  tagline: '3年新媒体运营经验 · 从0到10万粉丝实操\n擅长内容策划与短视频制作 · 数据驱动增长',
+  highlights: [
+    { num: '10', unit: '万', label: '公众号粉丝' },
+    { num: '50', unit: 'w+', label: '累计播放' },
+    { num: '3', unit: '', label: '爆款案例' },
+    { num: '5', unit: '个', label: '运营账号' }
+  ],
+  works: [
+    { badge: 'operation', badgeLabel: '📱 公众号运营', title: '从0到10万粉：职场类公众号增长复盘', period: '2022.06 – 2024.03', subtitle: '某职场成长号', desc: '负责公众号整体运营策略，通过内容矩阵搭建、社群裂变、跨号互推等组合打法，18个月内实现从0到10万粉丝增长。策划的「30天职场进阶」系列课程带来5000+付费用户。', stats: [{ num: '10', unit: '万粉丝' }, { num: '5000+', unit: '付费用户' }], tags: ['用户增长','内容策划','社群运营','变现'] },
+    { badge: 'video', badgeLabel: '🎬 短视频运营', title: '抖音职场号：单条播放量200w+', period: '2023.03 – 2023.09', subtitle: '抖音 @职场说', desc: '负责短视频选题策划与脚本撰写，3个月内从0起号做到5万粉丝。其中「应届生面试避坑指南」单条播放量突破200万，带来1.2万新增粉丝。', stats: [{ num: '200w+', unit: '单条播放' }, { num: '5w', unit: '粉丝' }], tags: ['短视频','脚本策划','抖音运营','爆款'] },
+    { badge: 'book', badgeLabel: '📊 数据驱动', title: '月度运营报告体系搭建', period: '2023.01 – 至今', subtitle: '常态化工作', desc: '建立完整的运营数据看板，涵盖粉丝增长、内容表现、转化漏斗、竞品监测四大模块。通过数据指导选题方向和发布时间，将内容打开率从3.2%提升至7.8%。', stats: [{ num: '3.2%→7.8%', unit: '打开率提升' }], tags: ['数据分析','Excel','GA','复盘'] }
+  ]
+};
+
+// ===== 加载/保存数据 =====
+function loadData() {
+  try {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (saved) {
+      const parsed = JSON.parse(saved);
+      return { ...DEFAULT_DATA, ...parsed, highlights: parsed.highlights || DEFAULT_DATA.highlights, works: parsed.works || DEFAULT_DATA.works };
+    }
+  } catch (e) { console.warn('数据加载失败，使用默认', e); }
+  return null; // 首次访问无数据
+}
+
+function saveData(d) {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(d));
+}
+
+function hasSavedData() {
+  return localStorage.getItem(STORAGE_KEY) !== null;
+}
+
+// ===== 渲染页面 =====
+function renderPage(data) {
+  if (!data) {
+    // 无数据时展示空状态引导
+    document.querySelector('#hero .avatar').textContent = '?';
+    document.querySelector('#hero h1').textContent = '展集';
+    document.querySelector('#hero .title-tag').textContent = '📱 你的作品集';
+    document.querySelector('#hero .tagline').innerHTML = '点击左下角 ✏️ 开始编辑你的作品集';
+    document.querySelector('#hero .contact-bar').innerHTML = '<span style="color:#B0A090;font-size:13px;">编辑后自动展示联系方式</span>';
+    document.querySelector('#highlights .grid').innerHTML = '<div style="grid-column:1/-1;text-align:center;color:#D0C4B8;padding:8px 0;font-size:13px;">编辑后可设置数据亮点</div>';
+    const ws = document.querySelector('#works .container');
+    ws.querySelectorAll('.work-card').forEach(c => c.remove());
+    const titles = ws.querySelectorAll('.section-title');
+    if (titles.length > 1) titles[1].remove();
+    document.querySelector('#footer').innerHTML = '展集 · 新媒体作品集生成工具';
+    return;
+  }
+
+  // Hero
+  document.querySelector('#hero .avatar').textContent = data.avatar || data.name[0];
+  document.querySelector('#hero h1').textContent = data.name;
+  document.querySelector('#hero .title-tag').textContent = '📱 ' + data.title;
+  document.querySelector('#hero .tagline').innerHTML = data.tagline.replace(/\n/g, '<br>');
+  // Contact
+  const contactBar = document.querySelector('#hero .contact-bar');
+  contactBar.innerHTML = `
+    <a href="tel:${data.phone}"><span class="label">📞</span> ${data.phone}</a>
+    <a href="mailto:${data.email}"><span class="label">✉️</span> ${data.email}</a>
+    <a id="copyLinkBtn"><span class="label">🔗</span> 分享作品集</a>
+  `;
+  document.getElementById('copyLinkBtn').addEventListener('click', copyLink);
+
+  // Highlights
+  const hlGrid = document.querySelector('#highlights .grid');
+  hlGrid.innerHTML = data.highlights.map((h, i) => `
+    <div class="item">
+      <div class="num">${h.num}<span class="unit">${h.unit}</span></div>
+      <div class="label">${h.label}</div>
+    </div>
+  `).join('');
+
+  // Works
+  const worksSection = document.querySelector('#works .container');
+  const titles = worksSection.querySelectorAll('.section-title');
+  const oldCards = worksSection.querySelectorAll('.work-card');
+  oldCards.forEach(c => c.remove());
+  const insertPoint = titles[0];
+  data.works.forEach((w, idx) => {
+    const card = document.createElement('div');
+    card.className = `work-card fade-in fade-in-d${(idx % 4) + 1}`;
+    card.innerHTML = `
+      <div class="badge ${w.badge}">${w.badgeLabel}</div>
+      <h3>${w.title}</h3>
+      <div class="meta"><span>${w.period}</span><span class="dot"></span><span>${w.subtitle}</span></div>
+      <p class="desc">${w.desc}</p>
+      ${w.stats && w.stats.length ? `<div class="stats">${w.stats.map(s => `<div class="stat-item"><span class="num">${s.num}</span><span class="lbl">${s.unit}</span></div>`).join('')}</div>` : ''}
+      <div class="tags">${w.tags.map(t => `<span>${t}</span>`).join('')}</div>
+    `;
+    insertPoint.after(card);
+  });
+  if (titles.length > 1) titles[1].remove();
+
+  // Footer
+  document.querySelector('#footer').innerHTML = `${data.name} · ${data.title} · 作品集 &nbsp;|&nbsp; 持续更新中`;
+
+  // CTA
+  document.querySelector('#cta .btn').href = `mailto:${data.email}`;
+  document.querySelector('#cta .btn').textContent = `✉️ 发送邮件联系 ${data.name}`;
+  document.querySelector('#cta .sub-links').innerHTML = `
+    <a href="tel:${data.phone}">📞 ${data.phone}</a> ／ <a href="mailto:${data.email}">✉️ ${data.email}</a>
+  `;
+
+  // Re-run fade-in
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+}
+
+// ===== 编辑面板 =====
+function openEditPanel() {
+  const data = hasSavedData() ? loadData() : { ...DEFAULT_DATA, highlights: [...DEFAULT_DATA.highlights], works: [...DEFAULT_DATA.works] };
+  document.getElementById('edtName').value = data.name;
+  document.getElementById('edtAvatar').value = data.avatar || data.name[0];
+  document.getElementById('edtTitle').value = data.title;
+  document.getElementById('edtTagline').value = data.tagline;
+  document.getElementById('edtPhone').value = data.phone;
+  document.getElementById('edtEmail').value = data.email;
+  renderHighlightEditors(data.highlights);
+  renderWorkEditors(data.works);
+  document.getElementById('editOverlay').classList.add('open');
+  document.getElementById('editPanel').classList.add('open');
+  document.getElementById('editFab').classList.add('editing');
+}
+
+function closeEditPanel() {
+  document.getElementById('editOverlay').classList.remove('open');
+  document.getElementById('editPanel').classList.remove('open');
+  document.getElementById('editFab').classList.remove('editing');
+}
+
+function renderHighlightEditors(highlights) {
+  const container = document.getElementById('edtHighlights');
+  container.innerHTML = highlights.map((h, i) => `
+    <div class="form-row">
+      <div class="form-group"><input class="hl-num" value="${h.num}" placeholder="数字"></div>
+      <div class="form-group"><input class="hl-unit" value="${h.unit}" placeholder="单位"></div>
+      <div class="form-group" style="flex:2"><input class="hl-label" value="${h.label}" placeholder="标签"></div>
+    </div>
+  `).join('');
+}
+
+function renderWorkEditors(works) {
+  const container = document.getElementById('edtWorks');
+  container.innerHTML = works.map((w, i) => `
+    <div class="work-item">
+      <button class="del-btn" onclick="deleteWorkByEl(this)">✕</button>
+      <div class="form-row">
+        <div class="form-group"><input class="w-badge" value="${escHtml(w.badge)}" placeholder="类型"></div>
+        <div class="form-group" style="flex:2"><input class="w-badgeLabel" value="${escHtml(w.badgeLabel)}" placeholder="标签文字"></div>
+      </div>
+      <div class="form-group"><input class="w-title" value="${escHtml(w.title)}" placeholder="标题"></div>
+      <div class="form-row">
+        <div class="form-group"><input class="w-period" value="${escHtml(w.period)}" placeholder="时间"></div>
+        <div class="form-group"><input class="w-subtitle" value="${escHtml(w.subtitle)}" placeholder="来源"></div>
+      </div>
+      <div class="form-group"><textarea class="w-desc" rows="3" placeholder="描述">${escHtml(w.desc)}</textarea></div>
+      <div class="form-group"><input class="w-tags" value="${escHtml(w.tags.join(', '))}" placeholder="标签（逗号分隔）"></div>
+    </div>
+  `).join('');
+}
+
+function escHtml(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// ===== 数据操作 =====
+function collectFormData() {
+  return {
+    name: document.getElementById('edtName').value.trim() || '未知',
+    avatar: document.getElementById('edtAvatar').value.trim() || document.getElementById('edtName').value.trim()[0] || '?',
+    title: document.getElementById('edtTitle').value.trim() || '求职中',
+    tagline: document.getElementById('edtTagline').value.trim(),
+    phone: document.getElementById('edtPhone').value.trim(),
+    email: document.getElementById('edtEmail').value.trim(),
+    highlights: (() => {
+      const items = [];
+      document.querySelectorAll('#edtHighlights .form-row').forEach(row => {
+        items.push({
+          num: row.querySelector('.hl-num').value.trim() || '0',
+          unit: row.querySelector('.hl-unit').value.trim(),
+          label: row.querySelector('.hl-label').value.trim() || '数据'
+        });
+      });
+      return items;
+    })(),
+    works: (() => {
+      const items = [];
+      document.querySelectorAll('#edtWorks .work-item').forEach(item => {
+        const tagsStr = item.querySelector('.w-tags').value.trim();
+        items.push({
+          badge: item.querySelector('.w-badge').value.trim() || 'operation',
+          badgeLabel: item.querySelector('.w-badgeLabel').value.trim() || '🏷️',
+          title: item.querySelector('.w-title').value.trim() || '作品',
+          period: item.querySelector('.w-period').value.trim(),
+          subtitle: item.querySelector('.w-subtitle').value.trim(),
+          desc: item.querySelector('.w-desc').value.trim(),
+          tags: tagsStr ? tagsStr.split(/[,，]/).map(s => s.trim()).filter(Boolean) : [],
+          stats: []
+        });
+      });
+      return items;
+    })()
+  };
+}
+
+function deleteWorkByEl(btn) {
+  btn.closest('.work-item').remove();
+}
+
+function addWork() {
+  const container = document.getElementById('edtWorks');
+  const div = document.createElement('div');
+  div.className = 'work-item';
+  div.innerHTML = `
+    <button class="del-btn" onclick="deleteWorkByEl(this)">✕</button>
+    <div class="form-row">
+      <div class="form-group"><input class="w-badge" value="operation" placeholder="类型"></div>
+      <div class="form-group" style="flex:2"><input class="w-badgeLabel" value="🏷️ 新作品" placeholder="标签文字"></div>
+    </div>
+    <div class="form-group"><input class="w-title" value="新作品标题" placeholder="标题"></div>
+    <div class="form-row">
+      <div class="form-group"><input class="w-period" value="" placeholder="时间"></div>
+      <div class="form-group"><input class="w-subtitle" value="" placeholder="来源"></div>
+    </div>
+    <div class="form-group"><textarea class="w-desc" rows="3" placeholder="描述"></textarea></div>
+    <div class="form-group"><input class="w-tags" value="" placeholder="标签（逗号分隔）"></div>
+  `;
+  container.appendChild(div);
+}
+
+// ===== 保存 / 示例 / 重置 =====
+function saveAndRender() {
+  const data = collectFormData();
+  saveData(data);
+  renderPage(data);
+  showToast('✅ 作品集已更新！');
+  closeEditPanel();
+}
+
+function loadExampleData() {
+  saveData(EXAMPLE_DATA);
+  renderPage(EXAMPLE_DATA);
+  showToast('📋 已加载示例数据，你可以在此基础上修改');
+  closeEditPanel();
+}
+
+function resetToDefault() {
+  if (!confirm('确认恢复空白模板？当前数据会丢失。')) return;
+  localStorage.removeItem(STORAGE_KEY);
+  renderPage(null);
+  showToast('已恢复空白模板，点击 ✏️ 开始编辑');
+  closeEditPanel();
+}
+
+// ===== 导入 / 导出 =====
+function exportData() {
+  const data = loadData();
+  if (!data) { showToast('暂无数据可导出'); return; }
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `展集-作品集数据-${data.name}.json`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  showToast('📤 数据已导出为 JSON 文件');
+}
+
+function importData() {
+  const input = document.createElement('input');
+  input.type = 'file';
+  input.accept = '.json';
+  input.onchange = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      try {
+        const data = JSON.parse(ev.target.result);
+        if (!data.name || !data.title) throw new Error('数据格式不正确');
+        saveData(data);
+        renderPage(data);
+        showToast('📥 数据导入成功！');
+        closeEditPanel();
+      } catch (err) {
+        showToast('❌ 文件格式不正确，请检查');
+      }
+    };
+    reader.readAsText(file);
+  };
+  input.click();
+}
+
+// ===== 滚动渐入动画 =====
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) entry.target.classList.add('visible');
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+// ===== 复制链接 =====
+function copyLink() {
+  const url = window.location.href;
+  navigator.clipboard.writeText(url).then(() => showToast('✅ 链接已复制，分享给招聘方吧！')).catch(() => {
+    const input = document.createElement('input');
+    input.value = url; document.body.appendChild(input);
+    input.select(); document.execCommand('copy');
+    document.body.removeChild(input);
+    showToast('✅ 链接已复制');
+  });
+}
+
+// ===== 初始化 =====
+let toastTimer;
+function showToast(msg) {
+  const el = document.getElementById('toast');
+  el.textContent = msg; el.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => el.classList.remove('show'), 2200);
+}
+
+(function init() {
+  const data = loadData();
+  const isFirstVisit = !hasSavedData();
+
+  renderPage(data);
+
+  // 首次访问自动弹出编辑面板
+  if (isFirstVisit) {
+    setTimeout(() => {
+      openEditPanel();
+      showToast('👋 欢迎使用展集！先来填写你的信息吧');
+    }, 600);
+  }
+
+  // 编辑按钮
+  document.getElementById('editFab').addEventListener('click', () => {
+    if (document.getElementById('editPanel').classList.contains('open')) {
+      closeEditPanel();
+    } else {
+      openEditPanel();
+    }
+  });
+  document.getElementById('closeEditBtn').addEventListener('click', closeEditPanel);
+  document.getElementById('editOverlay').addEventListener('click', closeEditPanel);
+
+  // 编辑面板按钮
+  document.getElementById('saveBtn').addEventListener('click', saveAndRender);
+  document.getElementById('loadExampleBtn').addEventListener('click', loadExampleData);
+  document.getElementById('resetBtn').addEventListener('click', resetToDefault);
+  document.getElementById('addWorkBtn').addEventListener('click', addWork);
+  document.getElementById('exportBtn').addEventListener('click', exportData);
+  document.getElementById('importBtn').addEventListener('click', importData);
+
+  // 分享
+  const shareTitle = data ? (data.name + ' · ' + data.title + ' · 作品集') : '展集 · 我的作品集';
+  document.getElementById('shareBtn').addEventListener('click', () => {
+    if (navigator.share) {
+      navigator.share({ title: shareTitle, text: '看看我的作品集 👇', url: window.location.href }).catch(() => {});
+    } else {
+      copyLink();
+    }
+  });
+
+  // 注册 Service Worker（PWA 离线可用）
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('sw.js').catch(() => {});
+  }
+})();
+</script>
+</body>
+</html>
