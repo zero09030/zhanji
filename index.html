@@ -466,6 +466,9 @@ body {
       <button class="btn-secondary" id="exportBtn" style="flex:1;">📤 导出数据</button>
       <button class="btn-secondary" id="importBtn" style="flex:1;">📥 导入数据</button>
     </div>
+    <div style="margin-top:10px;">
+      <button class="btn-secondary" id="shareLinkBtn" style="width:100%; padding:10px; border-radius:12px; border:1px solid #E0D4CC; background:#fff; color:#E8734A; font-size:14px; font-weight:600; cursor:pointer;">🔗 生成分享链接（发送给招聘方）</button>
+    </div>
     <div style="margin-top:10px; text-align:center;">
       <button id="resetBtn" style="font-size:12px; padding:6px 16px; border:1px solid #E0D4CC; background:none; color:#B0A090; border-radius:20px; cursor:pointer; transition:color 0.2s;">恢复空白模板</button>
     </div>
@@ -496,8 +499,8 @@ const DEFAULT_DATA = {
     { num: '00', unit: '年', label: '行业经验' }
   ],
   works: [
-    { badge: 'operation', badgeLabel: '📱 运营案例', title: '在这里填写作品标题', period: '时间周期', subtitle: '来源/平台', desc: '在这里填写作品的详细描述，突出你的工作内容、职责分工和取得的成果。建议包含具体的数据和可量化的结果。', stats: [{ num: '00', unit: '数据指标' }], tags: ['标签1','标签2','标签3'] },
-    { badge: 'video', badgeLabel: '🎬 视频作品', title: '填写视频作品标题', period: '时间周期', subtitle: '发布平台', desc: '描述你的视频作品，包含选题思路、制作过程、传播效果等。用数据说话更有说服力。', stats: [{ num: '00w+', unit: '播放量' }], tags: ['标签1','标签2','标签3'] }
+    { badge: 'operation', badgeLabel: '📱 运营案例', title: '在这里填写作品标题', period: '时间周期', subtitle: '来源/平台', desc: '在这里填写作品的详细描述，突出你的工作内容、职责分工和取得的成果。建议包含具体的数据和可量化的结果。', stats: [{ num: '00', unit: '数据指标' }], tags: ['标签1','标签2','标签3'], link: '', video: '', image: '' },
+    { badge: 'video', badgeLabel: '🎬 视频作品', title: '填写视频作品标题', period: '时间周期', subtitle: '发布平台', desc: '描述你的视频作品，包含选题思路、制作过程、传播效果等。用数据说话更有说服力。', stats: [{ num: '00w+', unit: '播放量' }], tags: ['标签1','标签2','标签3'], link: '', video: '', image: '' }
   ],
   experience: [
     { period: '起止时间', company: '公司/机构名称', role: '职位名称', desc: '填写你的工作内容和成果，建议包含具体数据。' },
@@ -524,9 +527,9 @@ const EXAMPLE_DATA = {
     { num: '5', unit: '个', label: '运营账号' }
   ],
   works: [
-    { badge: 'operation', badgeLabel: '📱 公众号运营', title: '从0到10万粉：职场类公众号增长复盘', period: '2022.06 – 2024.03', subtitle: '某职场成长号', desc: '负责公众号整体运营策略，通过内容矩阵搭建、社群裂变、跨号互推等组合打法，18个月内实现从0到10万粉丝增长。策划的「30天职场进阶」系列课程带来5000+付费用户。', stats: [{ num: '10', unit: '万粉丝' }, { num: '5000+', unit: '付费用户' }], tags: ['用户增长','内容策划','社群运营','变现'] },
-    { badge: 'video', badgeLabel: '🎬 短视频运营', title: '抖音职场号：单条播放量200w+', period: '2023.03 – 2023.09', subtitle: '抖音 @职场说', desc: '负责短视频选题策划与脚本撰写，3个月内从0起号做到5万粉丝。其中「应届生面试避坑指南」单条播放量突破200万，带来1.2万新增粉丝。', stats: [{ num: '200w+', unit: '单条播放' }, { num: '5w', unit: '粉丝' }], tags: ['短视频','脚本策划','抖音运营','爆款'] },
-    { badge: 'book', badgeLabel: '📊 数据驱动', title: '月度运营报告体系搭建', period: '2023.01 – 至今', subtitle: '常态化工作', desc: '建立完整的运营数据看板，涵盖粉丝增长、内容表现、转化漏斗、竞品监测四大模块。通过数据指导选题方向和发布时间，将内容打开率从3.2%提升至7.8%。', stats: [{ num: '3.2%→7.8%', unit: '打开率提升' }], tags: ['数据分析','Excel','GA','复盘'] }
+    { badge: 'operation', badgeLabel: '📱 公众号运营', title: '从0到10万粉：职场类公众号增长复盘', period: '2022.06 – 2024.03', subtitle: '某职场成长号', desc: '负责公众号整体运营策略，通过内容矩阵搭建、社群裂变、跨号互推等组合打法，18个月内实现从0到10万粉丝增长。策划的「30天职场进阶」系列课程带来5000+付费用户。', stats: [{ num: '10', unit: '万粉丝' }, { num: '5000+', unit: '付费用户' }], tags: ['用户增长','内容策划','社群运营','变现'], link: '', video: '', image: '' },
+    { badge: 'video', badgeLabel: '🎬 短视频运营', title: '抖音职场号：单条播放量200w+', period: '2023.03 – 2023.09', subtitle: '抖音 @职场说', desc: '负责短视频选题策划与脚本撰写，3个月内从0起号做到5万粉丝。其中「应届生面试避坑指南」单条播放量突破200万，带来1.2万新增粉丝。', stats: [{ num: '200w+', unit: '单条播放' }, { num: '5w', unit: '粉丝' }], tags: ['短视频','脚本策划','抖音运营','爆款'], link: '', video: '', image: '' },
+    { badge: 'book', badgeLabel: '📊 数据驱动', title: '月度运营报告体系搭建', period: '2023.01 – 至今', subtitle: '常态化工作', desc: '建立完整的运营数据看板，涵盖粉丝增长、内容表现、转化漏斗、竞品监测四大模块。通过数据指导选题方向和发布时间，将内容打开率从3.2%提升至7.8%。', stats: [{ num: '3.2%→7.8%', unit: '打开率提升' }], tags: ['数据分析','Excel','GA','复盘'], link: '', video: '', image: '' }
   ],
   experience: [
     { period: '2022.06 – 2024.03', company: '某互联网公司', role: '新媒体运营主管', desc: '负责公司新媒体矩阵运营，管理公众号、抖音、小红书三个账号。通过内容策略调整和数据分析，实现年度粉丝增长300%。' },
@@ -612,10 +615,32 @@ function renderPage(data) {
     const card = document.createElement('div');
     card.className = `work-card fade-in fade-in-d${(idx % 4) + 1}`;
     card.innerHTML = `
+      ${w.image ? `<div style="margin:-20px -20px 14px;border-radius:16px 16px 0 0;overflow:hidden;background:#F5F0EC;"><img src="${escHtml(w.image)}" alt="${escHtml(w.title)}" style="width:100%;display:block;max-height:200px;object-fit:cover;" onerror="this.parentElement.style.display='none'"></div>` : ''}
       <div class="badge ${w.badge}">${w.badgeLabel}</div>
       <h3>${w.title}</h3>
       <div class="meta"><span>${w.period}</span><span class="dot"></span><span>${w.subtitle}</span></div>
+      ${w.video ? (() => {
+        const v = w.video.trim();
+        // 检测平台并生成合适的嵌入方式
+        const isBilibili = v.includes('bilibili.com') || v.includes('b23.tv');
+        const isYouTube = v.includes('youtube.com') || v.includes('youtu.be');
+        const isDirectVideo = v.match(/\.(mp4|webm|ogg)(\?|$)/i);
+        if (isBilibili) {
+          // B站：提取 BV 号或用传入的 embed URL
+          const src = v.includes('player.bilibili.com') ? v : `https://player.bilibili.com/player.html?bvid=${v.match(/BV\w+/)?.[0] || ''}&autoplay=0`;
+          return `<div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:10px;margin:10px 0;background:#000;"><iframe src="${escHtml(src)}" style="position:absolute;top:0;left:0;width:100%;height:100%;border:none;" allowfullscreen loading="lazy"></iframe></div>`;
+        } else if (isYouTube) {
+          const ytId = v.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([\w-]+)/)?.[1] || '';
+          return `<div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:10px;margin:10px 0;background:#000;"><iframe src="https://www.youtube.com/embed/${ytId}" style="position:absolute;top:0;left:0;width:100%;height:100%;border:none;" allowfullscreen loading="lazy"></iframe></div>`;
+        } else if (isDirectVideo) {
+          return `<div style="border-radius:10px;overflow:hidden;margin:10px 0;background:#000;"><video src="${escHtml(v)}" controls style="width:100%;display:block;max-height:300px;"></video></div>`;
+        } else {
+          // 其他平台：显示为外链卡片
+          return `<a href="${escHtml(v)}" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:8px;margin:10px 0;padding:12px 16px;border-radius:12px;background:#F5F0EC;color:#5A4A3C;text-decoration:none;font-size:14px;"><span style="font-size:20px;">🎬</span><span style="flex:1;">点击观看视频作品</span><span style="font-size:16px;">↗</span></a>`;
+        }
+      })() : ''}
       <p class="desc">${w.desc}</p>
+      ${w.link ? `<div style="margin-top:10px;"><a href="${escHtml(w.link)}" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:4px;padding:6px 14px;border-radius:20px;background:#FDF0EB;color:#D95E38;text-decoration:none;font-size:13px;font-weight:600;">🔗 查看作品</a></div>` : ''}
       ${w.stats && w.stats.length ? `<div class="stats">${w.stats.map(s => `<div class="stat-item"><span class="num">${s.num}</span><span class="lbl">${s.unit}</span></div>`).join('')}</div>` : ''}
       <div class="tags">${w.tags.map(t => `<span>${t}</span>`).join('')}</div>
     `;
@@ -715,6 +740,9 @@ function renderWorkEditors(works) {
         <div class="form-group"><input class="w-subtitle" value="${escHtml(w.subtitle)}" placeholder="来源"></div>
       </div>
       <div class="form-group"><textarea class="w-desc" rows="3" placeholder="描述">${escHtml(w.desc)}</textarea></div>
+      <div class="form-group"><input class="w-link" value="${escHtml(w.link || '')}" placeholder="🔗 链接 URL（可选）"></div>
+      <div class="form-group"><input class="w-video" value="${escHtml(w.video || '')}" placeholder="🎬 视频链接（B站URL/MP4直链，抖音小红书自动转为外链）"></div>
+      <div class="form-group"><input class="w-image" value="${escHtml(w.image || '')}" placeholder="🖼️ 图片 URL（可选）"></div>
       <div class="form-group"><input class="w-tags" value="${escHtml(w.tags.join(', '))}" placeholder="标签（逗号分隔）"></div>
     </div>
   `).join('');
@@ -797,6 +825,9 @@ function collectFormData() {
           period: item.querySelector('.w-period').value.trim(),
           subtitle: item.querySelector('.w-subtitle').value.trim(),
           desc: item.querySelector('.w-desc').value.trim(),
+          link: item.querySelector('.w-link').value.trim(),
+          video: item.querySelector('.w-video').value.trim(),
+          image: item.querySelector('.w-image').value.trim(),
           tags: tagsStr ? tagsStr.split(/[,，]/).map(s => s.trim()).filter(Boolean) : [],
           stats: []
         });
@@ -849,6 +880,9 @@ function addWork() {
       <div class="form-group"><input class="w-subtitle" value="" placeholder="来源"></div>
     </div>
     <div class="form-group"><textarea class="w-desc" rows="3" placeholder="描述"></textarea></div>
+    <div class="form-group"><input class="w-link" placeholder="🔗 链接 URL（可选）"></div>
+    <div class="form-group"><input class="w-video" placeholder="🎬 视频嵌入 URL（可选）"></div>
+    <div class="form-group"><input class="w-image" placeholder="🖼️ 图片 URL（可选）"></div>
     <div class="form-group"><input class="w-tags" value="" placeholder="标签（逗号分隔）"></div>
   `;
   container.appendChild(div);
@@ -938,6 +972,40 @@ function copyLink() {
   });
 }
 
+// ===== 生成分享链接 =====
+function generateShareLink() {
+  const data = collectFormData();
+  try {
+    const encoded = btoa(encodeURIComponent(JSON.stringify(data)));
+    const url = window.location.origin + window.location.pathname + '?d=' + encoded;
+    navigator.clipboard.writeText(url).then(() => {
+      showToast('✅ 分享链接已复制！发送给招聘方即可查看');
+    }).catch(() => {
+      // fallback
+      const input = document.createElement('input');
+      input.value = url; document.body.appendChild(input);
+      input.select(); document.execCommand('copy');
+      document.body.removeChild(input);
+      showToast('✅ 链接已复制到剪贴板');
+    });
+  } catch(e) {
+    showToast('❌ 生成链接失败，数据可能过大');
+  }
+}
+
+// ===== 检查 URL 中是否含分享数据 =====
+function loadSharedData() {
+  const params = new URLSearchParams(window.location.search);
+  const encoded = params.get('d');
+  if (!encoded) return null;
+  try {
+    const json = decodeURIComponent(atob(encoded));
+    const data = JSON.parse(json);
+    if (data && data.name) return data;
+  } catch(e) {}
+  return null;
+}
+
 // ===== 初始化 =====
 let toastTimer;
 function showToast(msg) {
@@ -948,17 +1016,23 @@ function showToast(msg) {
 }
 
 (function init() {
-  const data = loadData();
-  const isFirstVisit = !hasSavedData();
-
-  renderPage(data);
-
-  // 首次访问自动弹出编辑面板
-  if (isFirstVisit) {
-    setTimeout(() => {
-      openEditPanel();
-      showToast('👋 欢迎使用展集！先来填写你的信息吧');
-    }, 600);
+  let data;
+  // 优先检查 URL 中是否有分享数据
+  const sharedData = loadSharedData();
+  if (sharedData) {
+    data = sharedData;
+    saveData(data);
+    renderPage(data);
+  } else {
+    data = loadData();
+    const isFirstVisit = !hasSavedData();
+    renderPage(data);
+    if (isFirstVisit) {
+      setTimeout(() => {
+        openEditPanel();
+        showToast('👋 欢迎使用展集！先来填写你的信息吧');
+      }, 600);
+    }
   }
 
   // 编辑按钮
@@ -981,6 +1055,7 @@ function showToast(msg) {
   document.getElementById('addEduBtn').addEventListener('click', addEducation);
   document.getElementById('exportBtn').addEventListener('click', exportData);
   document.getElementById('importBtn').addEventListener('click', importData);
+  document.getElementById('shareLinkBtn').addEventListener('click', generateShareLink);
 
   // 分享
   const shareTitle = data ? (data.name + ' · ' + data.title + ' · 作品集') : '展集 · 我的作品集';
