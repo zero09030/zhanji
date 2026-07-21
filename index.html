@@ -362,20 +362,7 @@ body {
 <section id="experience">
   <div class="container">
     <div class="section-title fade-in"><span class="icon">📋</span> 工作经历</div>
-    <div class="timeline">
-      <div class="timeline-item fade-in fade-in-d1">
-        <div class="period">点击编辑</div>
-        <h4>在此填写公司/机构名称</h4>
-        <div class="role">职位名称</div>
-        <div class="desc">填写你的工作内容和成果，建议包含具体数据。</div>
-      </div>
-      <div class="timeline-item fade-in fade-in-d2">
-        <div class="period">点击编辑</div>
-        <h4>在此填写公司/机构名称</h4>
-        <div class="role">职位名称</div>
-        <div class="desc">填写你的工作内容和成果。</div>
-      </div>
-    </div>
+    <div class="timeline"></div>
   </div>
 </section>
 
@@ -383,24 +370,10 @@ body {
 <section id="skills">
   <div class="container">
     <div class="section-title fade-in"><span class="icon">🛠</span> 专业技能</div>
-    <div class="skill-grid fade-in fade-in-d1">
-      <span class="tag highlight">技能标签1</span>
-      <span class="tag highlight">技能标签2</span>
-      <span class="tag highlight">技能标签3</span>
-      <span class="tag">标签4</span>
-      <span class="tag">标签5</span>
-      <span class="tag">标签6</span>
-      <span class="tag">标签7</span>
-      <span class="tag">标签8</span>
-      <span class="tag">标签9</span>
-      <span class="tag">标签10</span>
-    </div>
+    <div class="skill-grid fade-in fade-in-d1"></div>
     <div style="margin-top: 20px;" class="fade-in fade-in-d2">
       <div class="section-title" style="font-size:16px; margin-bottom:12px;"><span class="icon">🎓</span> 教育背景</div>
-      <div style="background:#fff; border-radius:12px; padding:16px; border:1px solid #F0E8E0;">
-        <div style="font-size:14px; font-weight:600;">学校名称</div>
-        <div style="font-size:13px; color:#6B5A4C; margin-top:2px;">专业 · 学历（GPA / 荣誉）</div>
-      </div>
+      <div class="edu-block"></div>
     </div>
   </div>
 </section>
@@ -445,7 +418,7 @@ body {
       </div>
       <div class="form-group">
         <label>头像文字</label>
-        <input type="text" id="edtAvatar" value="牛" maxlength="2" style="text-align:center;">
+        <input type="text" id="edtAvatar" value="你" maxlength="2" style="text-align:center;">
       </div>
     </div>
     <div class="form-group">
@@ -471,6 +444,20 @@ body {
     <div id="edtWorks"></div>
     <button class="add-work-btn" id="addWorkBtn">＋ 添加作品</button>
 
+    <div class="section-label">📋 工作经历</div>
+    <div id="edtExperience"></div>
+    <button class="add-work-btn" id="addExpBtn">＋ 添加经历</button>
+
+    <div class="section-label">🛠 专业技能</div>
+    <div class="form-group">
+      <label>技能标签（逗号分隔）</label>
+      <textarea id="edtSkills" rows="3" placeholder="新媒体运营, 内容策划, 短视频制作, ..."></textarea>
+    </div>
+
+    <div class="section-label">🎓 教育背景</div>
+    <div id="edtEducation"></div>
+    <button class="add-work-btn" id="addEduBtn">＋ 添加教育经历</button>
+
     <div class="save-bar">
       <button class="btn-secondary" id="loadExampleBtn">📋 加载示例</button>
       <button class="btn-primary" id="saveBtn">💾 保存</button>
@@ -492,7 +479,7 @@ body {
 // ================================================================
 // 数据层（默认数据 + localStorage）
 // ================================================================
-const STORAGE_KEY = 'zhanji_data_v1';
+const STORAGE_KEY = 'zhanji_data_v2';
 
 // ===== 空白模板（首次打开/重置时使用） =====
 const DEFAULT_DATA = {
@@ -511,6 +498,14 @@ const DEFAULT_DATA = {
   works: [
     { badge: 'operation', badgeLabel: '📱 运营案例', title: '在这里填写作品标题', period: '时间周期', subtitle: '来源/平台', desc: '在这里填写作品的详细描述，突出你的工作内容、职责分工和取得的成果。建议包含具体的数据和可量化的结果。', stats: [{ num: '00', unit: '数据指标' }], tags: ['标签1','标签2','标签3'] },
     { badge: 'video', badgeLabel: '🎬 视频作品', title: '填写视频作品标题', period: '时间周期', subtitle: '发布平台', desc: '描述你的视频作品，包含选题思路、制作过程、传播效果等。用数据说话更有说服力。', stats: [{ num: '00w+', unit: '播放量' }], tags: ['标签1','标签2','标签3'] }
+  ],
+  experience: [
+    { period: '起止时间', company: '公司/机构名称', role: '职位名称', desc: '填写你的工作内容和成果，建议包含具体数据。' },
+    { period: '起止时间', company: '公司/机构名称', role: '职位名称', desc: '填写你的工作内容和成果。' }
+  ],
+  skills: ['技能标签1','技能标签2','技能标签3','标签4','标签5','标签6','标签7','标签8','标签9','标签10'],
+  education: [
+    { school: '学校名称', major: '专业 · 学历', detail: 'GPA / 荣誉 / 说明' }
   ]
 };
 
@@ -532,6 +527,15 @@ const EXAMPLE_DATA = {
     { badge: 'operation', badgeLabel: '📱 公众号运营', title: '从0到10万粉：职场类公众号增长复盘', period: '2022.06 – 2024.03', subtitle: '某职场成长号', desc: '负责公众号整体运营策略，通过内容矩阵搭建、社群裂变、跨号互推等组合打法，18个月内实现从0到10万粉丝增长。策划的「30天职场进阶」系列课程带来5000+付费用户。', stats: [{ num: '10', unit: '万粉丝' }, { num: '5000+', unit: '付费用户' }], tags: ['用户增长','内容策划','社群运营','变现'] },
     { badge: 'video', badgeLabel: '🎬 短视频运营', title: '抖音职场号：单条播放量200w+', period: '2023.03 – 2023.09', subtitle: '抖音 @职场说', desc: '负责短视频选题策划与脚本撰写，3个月内从0起号做到5万粉丝。其中「应届生面试避坑指南」单条播放量突破200万，带来1.2万新增粉丝。', stats: [{ num: '200w+', unit: '单条播放' }, { num: '5w', unit: '粉丝' }], tags: ['短视频','脚本策划','抖音运营','爆款'] },
     { badge: 'book', badgeLabel: '📊 数据驱动', title: '月度运营报告体系搭建', period: '2023.01 – 至今', subtitle: '常态化工作', desc: '建立完整的运营数据看板，涵盖粉丝增长、内容表现、转化漏斗、竞品监测四大模块。通过数据指导选题方向和发布时间，将内容打开率从3.2%提升至7.8%。', stats: [{ num: '3.2%→7.8%', unit: '打开率提升' }], tags: ['数据分析','Excel','GA','复盘'] }
+  ],
+  experience: [
+    { period: '2022.06 – 2024.03', company: '某互联网公司', role: '新媒体运营主管', desc: '负责公司新媒体矩阵运营，管理公众号、抖音、小红书三个账号。通过内容策略调整和数据分析，实现年度粉丝增长300%。' },
+    { period: '2020.09 – 2022.05', company: '某文化传媒公司', role: '新媒体编辑', desc: '负责公众号日常内容产出与运营，单篇最高阅读量10w+。策划执行12场线上活动，累计参与用户超过2万人。' }
+  ],
+  skills: ['新媒体运营','内容策划','短视频制作','公众号运营','用户增长','活动策划','社群运营','数据分析','PR 剪辑','PS / 设计工具','文案创作','多平台分发'],
+  education: [
+    { school: '某大学', major: '新闻与传播 · 硕士', detail: 'GPA 3.8/4.0 · 校级优秀毕业生' },
+    { school: '某大学', major: '网络与新媒体 · 本科', detail: 'GPA 3.5/4.0 · 多次获得奖学金' }
   ]
 };
 
@@ -541,18 +545,20 @@ function loadData() {
     const saved = localStorage.getItem(STORAGE_KEY);
     if (saved) {
       const parsed = JSON.parse(saved);
-      return { ...DEFAULT_DATA, ...parsed, highlights: parsed.highlights || DEFAULT_DATA.highlights, works: parsed.works || DEFAULT_DATA.works };
+      return { ...DEFAULT_DATA, ...parsed, highlights: parsed.highlights || DEFAULT_DATA.highlights, works: parsed.works || DEFAULT_DATA.works, experience: parsed.experience || DEFAULT_DATA.experience, skills: parsed.skills || DEFAULT_DATA.skills, education: parsed.education || DEFAULT_DATA.education };
     }
   } catch (e) { console.warn('数据加载失败，使用默认', e); }
   return null; // 首次访问无数据
 }
 
 function saveData(d) {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(d));
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(d)); }
+  catch(e) { console.warn('保存失败', e); }
 }
 
 function hasSavedData() {
-  return localStorage.getItem(STORAGE_KEY) !== null;
+  try { return localStorage.getItem(STORAGE_KEY) !== null; }
+  catch(e) { return false; }
 }
 
 // ===== 渲染页面 =====
@@ -565,10 +571,10 @@ function renderPage(data) {
     document.querySelector('#hero .tagline').innerHTML = '点击左下角 ✏️ 开始编辑你的作品集';
     document.querySelector('#hero .contact-bar').innerHTML = '<span style="color:#B0A090;font-size:13px;">编辑后自动展示联系方式</span>';
     document.querySelector('#highlights .grid').innerHTML = '<div style="grid-column:1/-1;text-align:center;color:#D0C4B8;padding:8px 0;font-size:13px;">编辑后可设置数据亮点</div>';
-    const ws = document.querySelector('#works .container');
-    ws.querySelectorAll('.work-card').forEach(c => c.remove());
-    const titles = ws.querySelectorAll('.section-title');
-    if (titles.length > 1) titles[1].remove();
+    document.querySelector('#works .container').querySelectorAll('.work-card').forEach(c => c.remove());
+    document.querySelector('#experience .timeline').innerHTML = '<div style="color:#D0C4B8;text-align:center;padding:20px 0;font-size:13px;">编辑后可添加工作经历</div>';
+    document.querySelector('#skills .skill-grid').innerHTML = '<div style="color:#D0C4B8;text-align:center;padding:10px 0;font-size:13px;">编辑后可设置技能标签</div>';
+    document.querySelector('#skills .edu-block').innerHTML = '<div style="color:#D0C4B8;text-align:center;padding:10px 0;font-size:13px;">编辑后可添加教育背景</div>';
     document.querySelector('#footer').innerHTML = '展集 · 新媒体作品集生成工具';
     return;
   }
@@ -617,6 +623,33 @@ function renderPage(data) {
   });
   if (titles.length > 1) titles[1].remove();
 
+  // Experience
+  const timeline = document.querySelector('#experience .timeline');
+  timeline.innerHTML = data.experience.map(e => `
+    <div class="timeline-item fade-in">
+      <div class="period">${escHtml(e.period)}</div>
+      <h4>${escHtml(e.company)}</h4>
+      <div class="role">${escHtml(e.role)}</div>
+      <div class="desc">${escHtml(e.desc)}</div>
+    </div>
+  `).join('');
+
+  // Skills
+  const skillGrid = document.querySelector('#skills .skill-grid');
+  skillGrid.innerHTML = data.skills.map((s, i) =>
+    `<span class="tag${i < 3 ? ' highlight' : ''}">${escHtml(s)}</span>`
+  ).join('');
+
+  // Education
+  const eduBlock = document.querySelector('#skills .edu-block');
+  eduBlock.innerHTML = data.education.map(e => `
+    <div style="background:#fff; border-radius:12px; padding:16px; border:1px solid #F0E8E0; margin-bottom:10px;">
+      <div style="font-size:14px; font-weight:600;">${escHtml(e.school)}</div>
+      <div style="font-size:13px; color:#6B5A4C; margin-top:2px;">${escHtml(e.major)}</div>
+      ${e.detail ? `<div style="font-size:12px; color:#B0A090; margin-top:4px;">${escHtml(e.detail)}</div>` : ''}
+    </div>
+  `).join('');
+
   // Footer
   document.querySelector('#footer').innerHTML = `${data.name} · ${data.title} · 作品集 &nbsp;|&nbsp; 持续更新中`;
 
@@ -633,7 +666,7 @@ function renderPage(data) {
 
 // ===== 编辑面板 =====
 function openEditPanel() {
-  const data = hasSavedData() ? loadData() : { ...DEFAULT_DATA, highlights: [...DEFAULT_DATA.highlights], works: [...DEFAULT_DATA.works] };
+  const data = hasSavedData() ? loadData() : { ...DEFAULT_DATA, highlights: [...DEFAULT_DATA.highlights], works: [...DEFAULT_DATA.works], experience: [...DEFAULT_DATA.experience], skills: [...DEFAULT_DATA.skills], education: [...DEFAULT_DATA.education] };
   document.getElementById('edtName').value = data.name;
   document.getElementById('edtAvatar').value = data.avatar || data.name[0];
   document.getElementById('edtTitle').value = data.title;
@@ -642,6 +675,9 @@ function openEditPanel() {
   document.getElementById('edtEmail').value = data.email;
   renderHighlightEditors(data.highlights);
   renderWorkEditors(data.works);
+  renderExperienceEditors(data.experience);
+  document.getElementById('edtSkills').value = data.skills.join(', ');
+  renderEducationEditors(data.education);
   document.getElementById('editOverlay').classList.add('open');
   document.getElementById('editPanel').classList.add('open');
   document.getElementById('editFab').classList.add('editing');
@@ -688,6 +724,48 @@ function escHtml(s) {
   return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
 
+// ===== 经历 / 技能 / 教育 编辑器 =====
+function renderExperienceEditors(list) {
+  const container = document.getElementById('edtExperience');
+  container.innerHTML = list.map((item, i) => `
+    <div class="work-item">
+      <button class="del-btn" onclick="deleteExpByEl(this)">✕</button>
+      <div class="form-group"><input class="exp-company" value="${escHtml(item.company)}" placeholder="公司/机构"></div>
+      <div class="form-row">
+        <div class="form-group"><input class="exp-role" value="${escHtml(item.role)}" placeholder="职位"></div>
+        <div class="form-group"><input class="exp-period" value="${escHtml(item.period)}" placeholder="起止时间"></div>
+      </div>
+      <div class="form-group"><textarea class="exp-desc" rows="2" placeholder="工作描述">${escHtml(item.desc)}</textarea></div>
+    </div>
+  `).join('');
+}
+function deleteExpByEl(btn) { btn.closest('.work-item').remove(); }
+function addExperience() {
+  const c = document.getElementById('edtExperience');
+  const d = document.createElement('div'); d.className = 'work-item';
+  d.innerHTML = '<button class="del-btn" onclick="deleteExpByEl(this)">✕</button><div class="form-group"><input class="exp-company" placeholder="公司/机构"></div><div class="form-row"><div class="form-group"><input class="exp-role" placeholder="职位"></div><div class="form-group"><input class="exp-period" placeholder="起止时间"></div></div><div class="form-group"><textarea class="exp-desc" rows="2" placeholder="工作描述"></textarea></div>';
+  c.appendChild(d);
+}
+
+function renderEducationEditors(list) {
+  const container = document.getElementById('edtEducation');
+  container.innerHTML = list.map((item, i) => `
+    <div class="work-item">
+      <button class="del-btn" onclick="deleteEduByEl(this)">✕</button>
+      <div class="form-group"><input class="edu-school" value="${escHtml(item.school)}" placeholder="学校名称"></div>
+      <div class="form-group"><input class="edu-major" value="${escHtml(item.major)}" placeholder="专业 · 学历"></div>
+      <div class="form-group"><input class="edu-detail" value="${escHtml(item.detail || '')}" placeholder="GPA / 荣誉 / 说明"></div>
+    </div>
+  `).join('');
+}
+function deleteEduByEl(btn) { btn.closest('.work-item').remove(); }
+function addEducation() {
+  const c = document.getElementById('edtEducation');
+  const d = document.createElement('div'); d.className = 'work-item';
+  d.innerHTML = '<button class="del-btn" onclick="deleteEduByEl(this)">✕</button><div class="form-group"><input class="edu-school" placeholder="学校名称"></div><div class="form-group"><input class="edu-major" placeholder="专业 · 学历"></div><div class="form-group"><input class="edu-detail" placeholder="GPA / 荣誉 / 说明"></div>';
+  c.appendChild(d);
+}
+
 // ===== 数据操作 =====
 function collectFormData() {
   return {
@@ -724,11 +802,33 @@ function collectFormData() {
         });
       });
       return items;
+    })(),
+    experience: (() => {
+      const items = [];
+      document.querySelectorAll('#edtExperience .work-item').forEach(item => {
+        items.push({
+          company: item.querySelector('.exp-company').value.trim(),
+          role: item.querySelector('.exp-role').value.trim(),
+          period: item.querySelector('.exp-period').value.trim(),
+          desc: item.querySelector('.exp-desc').value.trim()
+        });
+      });
+      return items;
+    })(),
+    skills: document.getElementById('edtSkills').value.split(/[,，]/).map(s => s.trim()).filter(Boolean),
+    education: (() => {
+      const items = [];
+      document.querySelectorAll('#edtEducation .work-item').forEach(item => {
+        items.push({
+          school: item.querySelector('.edu-school').value.trim(),
+          major: item.querySelector('.edu-major').value.trim(),
+          detail: item.querySelector('.edu-detail').value.trim()
+        });
+      });
+      return items;
     })()
   };
-}
-
-function deleteWorkByEl(btn) {
+}(btn) {
   btn.closest('.work-item').remove();
 }
 
@@ -771,7 +871,7 @@ function loadExampleData() {
 
 function resetToDefault() {
   if (!confirm('确认恢复空白模板？当前数据会丢失。')) return;
-  localStorage.removeItem(STORAGE_KEY);
+  try { localStorage.removeItem(STORAGE_KEY); } catch(e) {}
   renderPage(null);
   showToast('已恢复空白模板，点击 ✏️ 开始编辑');
   closeEditPanel();
@@ -876,6 +976,8 @@ function showToast(msg) {
   document.getElementById('loadExampleBtn').addEventListener('click', loadExampleData);
   document.getElementById('resetBtn').addEventListener('click', resetToDefault);
   document.getElementById('addWorkBtn').addEventListener('click', addWork);
+  document.getElementById('addExpBtn').addEventListener('click', addExperience);
+  document.getElementById('addEduBtn').addEventListener('click', addEducation);
   document.getElementById('exportBtn').addEventListener('click', exportData);
   document.getElementById('importBtn').addEventListener('click', importData);
 
